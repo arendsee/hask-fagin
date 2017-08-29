@@ -1,0 +1,82 @@
+Gff = Gff (HashMap ID Scaffold) Sequence Source GffComments
+ Scaffold = Scaffold (HashMap ID Feature)
+
+newtype Gene = CodingGene ID [Attribute]
+
+newtype Protein = Protein ID [Attribute]
+
+newtype GeneModel = GeneModel Gene (HashMap ID MRna)
+
+newtype MRna = MRna [Interval] Strand CDS [Attribute]
+
+newtype Operon = Operon [Interval] Strand [CDS] [Attribute]
+
+newtype CDS = CDS [Interval] [Attribute] Protein
+
+newtype MaturePolypetide = MaturePolypetide CDS [Attribute]
+
+newtype Intein = Intein CDS [Attribute]
+
+
+
+
+doit :: GffRow
+doit g [] = add g scaffoldMap
+doit g parents = map (add g parentMap) parents
+
+primary { secondary { tertiary } }
+
+
+first pass
+
+    HasParent (HashMap ParentId GffEntry) | NoParent (HashMap ID
+
+
+
+HashMap ParentId (ChildId
+
+Edge ChildId ParentId --- you can get one edge from every entry
+                      --- everything has either an explicit parent
+                      --- or is a direct child of the scaffold
+
+For entry, encode line
+ - Gene ID [Attr]                        --> load in Scaffold
+ - MRna [Interval] [CDS] Strand [Attr]   --> load in Gene --> merge into self
+ - Exon Interval                         --> merge into MRna
+ - CDS Interval [Attr]                   --> merge into Prot
+ - Prot [Interval] [Attr]
+
+
+
+
+
+                                               Protein --11--.------------------.-----------.
+                                                              \                  \           \
+                                                   .--n1--.    11     .--11--> MatureProtein  \
+                                                  /        \    \    /                         \
+Genome --1n--> Scaffold --1n--> Gene --1n--> MRna --11--------> CDS *-------------------11--> Intein
+              (circular?)         \  .---'        \        /    /
+                                   `------11-------`-1n---'    /
+                                   /   (derives)              /
+                     Operon ------'--------------------------'
+
+
+
+
+
+      . Genome        .Gene            . Protein
+     .               .                .
+     ,               ,                ,
+Scaffolds -----> Transcripts -----> Translated
+                  /       \          /       \
+                 v         ^        v         ^
+                  \       /          \       /
+                   `-->--'            `-->--'
+                    Edit              Process
+
+  CDS has an mRNA parent
+  exon has an mRNA parent
+
+(mrnaID, exon) ----------.
+                          :--> MRna [Interval]
+(mrnaID, Attr, Strand) --'

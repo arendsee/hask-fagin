@@ -1,0 +1,25 @@
+input:
+    gff_dir: null
+    fna_dir: null
+    syn_dir: null
+    tree: null
+    focal_species: null
+    query_gene_list: null
+
+synder_settings:
+    offsets: "0111"
+    k: 10
+
+thresholds:
+    prot2prot: 0.05
+    prot2allorf: 0.05
+    prot2transorf: 0.05
+    dna2dna: 0.05
+
+details:
+    simulations:
+        prot2prot: 1000
+        prot2allorf: 1000
+        prot2transorf: 1000
+    dna2dna_maxspace: 100_000_000
+    indel_threshold: 0.25

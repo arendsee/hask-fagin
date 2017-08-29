@@ -1,0 +1,76 @@
+name:                fagin
+version:             0.8.0-dev
+homepage: https://github.com/arendsee/fagin
+synopsis: Classify orphan genes
+description:
+
+    Fagin does this and that
+
+license:             GPL-3
+license-file:        LICENSE
+author:              Zebulun Arendsee
+maintainer:          arendsee@iastate.edu
+category:            Bioinformatics
+build-type:          Simple
+extra-source-files:  ChangeLog.md, README.md
+cabal-version:       >=1.10
+
+flag documentation
+    default: False
+
+library
+    default-language: Haskell2010
+    hs-source-dirs: src
+    exposed-modules: Fagin,
+                     Fagin.IO,
+                     Fagin.BioSeq,
+                     -- Fagin.GeneModel,
+                     Fagin.Gff,
+                     Fagin.Interval,
+                     Fagin.Prelude,
+                     Fagin.Report
+
+    build-depends: base >=4.9 && <4.10,
+                   safe,
+                   bytestring >=0.10 && <0.11,
+                   containers >=0.5 && <0.6,
+                   extra >=1.5 && <1.6,
+                   basic-prelude,
+                   deepseq
+
+    default-extensions: NoImplicitPrelude,
+                        OverloadedStrings,
+                        TypeSynonymInstances,
+                        FlexibleInstances,
+                        FlexibleContexts,
+                        DeriveGeneric,
+                        DeriveAnyClass
+
+    ghc-options: -Wall -O
+
+    if flag(documentation)
+        build-depends: hscolour
+
+executable fagin
+    default-language: Haskell2010
+    main-is: Main.hs
+    hs-source-dirs: executable
+    build-depends: base, fagin
+
+    default-extensions: NoImplicitPrelude,
+                        OverloadedStrings
+
+    ghc-options: -Wall -O -threaded
+
+benchmark fagin-benchmarks
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  hs-source-dirs: benchmark
+  ghc-options: -Wall -rtsopts -threaded -with-rtsopts=-N
+  build-depends:
+      base
+    , fagin
+    , criterion
+  default-language: Haskell2010
+  default-extensions: NoImplicitPrelude,
+                      OverloadedStrings

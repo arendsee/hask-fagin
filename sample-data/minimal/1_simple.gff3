@@ -1,0 +1,13 @@
+# this is a comment, they can appear anywhere in the GFF
+# also empty lines can appear anywhere in the file
+
+# this is all stuff that will be skipped
+I	Strex	region	1	230218	.	+	.	ID=I
+I	Strex	telomere	1	801	.	-	.	ID=id1
+I	Strex	origin_of_replication	707	776	.	+	.	ID=id2
+
+# this is a simple gene
+I	Strex	gene	1807	2169	.	-	.	ID=Ryan
+I	Strex	mRNA	1807	2169	.	-	.	ID=mrna1;Parent=Ryan
+I	Strex	exon	1807	2169	.	-	.	Parent=mrna1
+I	Strex	CDS	1807	2169	.	-	0	Parent=mrna1
